@@ -7,6 +7,8 @@ it("finds nested files, ignores unrelated extensions and prefers the Panoply lau
   const root = await mkdtemp(path.join(tmpdir(), "clima-paths-"));
   try {
     await mkdir(path.join(root, "Panoply", "jars"), { recursive: true });
+    await mkdir(path.join(root, ".quicksetup", "downloads"), { recursive: true });
+    await writeFile(path.join(root, ".quicksetup", "downloads", "cached.nc"), "");
     for (const file of [
       "cdo.exe",
       "ncdump.exe",

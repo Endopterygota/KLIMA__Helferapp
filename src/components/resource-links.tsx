@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ExternalLink, Search, BookOpen } from "lucide-react";
 import { filterResourceLinks, resourceCategories, resourceLinks } from "@/lib/resource-links";
+import { QuickSetupPanel } from "./quick-setup";
 export function ResourceLinks() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("Alle");
@@ -19,6 +20,7 @@ export function ResourceLinks() {
           </p>
         </div>
       </div>
+      <QuickSetupPanel />
       <div className="library-toolbar">
         <label className="library-search">
           <Search size={16} />

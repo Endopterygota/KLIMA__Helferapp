@@ -20,6 +20,11 @@ export function UtilityWorkspace() {
   const [result, setResult] = useState<ConversionResult | null>(null);
   const [error, setError] = useState("");
   const [generation, setGeneration] = useState(0);
+  useEffect(() => {
+    const reload = () => setGeneration((value) => value + 1);
+    window.addEventListener("clima:settings-changed", reload);
+    return () => window.removeEventListener("clima:settings-changed", reload);
+  }, []);
   const desktop = typeof window !== "undefined" && !!window.climaDesktop?.checkTool;
   useEffect(() => {
     let current = true;

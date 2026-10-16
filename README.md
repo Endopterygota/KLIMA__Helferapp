@@ -9,7 +9,7 @@ Eine lokale Desktop-App für die Arbeit mit Klimadaten in GRIB- und NetCDF-Datei
 - **Datenbibliothek:** GRIB- und NetCDF-Dateien übersichtlich nach Format durchsuchen.
 - **Utility:** CDO und ncdump prüfen sowie GRIB-Dateien mit CDO in NetCDF konvertieren. Vorhandene Zieldateien werden nicht überschrieben.
 - **Logbuch:** `logbuch.txt` automatisch im gewählten Überordner oder seinen Unterordnern erkennen, bearbeiten und speichern. Groß-/Kleinschreibung spielt bei der Suche keine Rolle. Eine Datei direkt im Überordner hat Vorrang; mehrere Treffer in Unterordnern erfordern die Auswahl eines genaueren Überordners.
-- **Links:** Eine Sammlung offizieller Download- und Dokumentationsseiten aus den Vorbereitungsmaterialien.
+- **Links und Quicksetup:** Offizielle Download- und Dokumentationsseiten sowie automatische Einrichtung eines lokalen Arbeitsordners samt Werkzeugen und Testdaten.
 - **Dark Mode:** Persistente Darstellung und Einstellungen. Ein Tabwechsel erhält die laufende Übersicht und ihre Vorschau.
 
 ## Desktop-App verwenden
@@ -17,11 +17,21 @@ Eine lokale Desktop-App für die Arbeit mit Klimadaten in GRIB- und NetCDF-Datei
 1. Die Windows-App starten und unter **Einstellungen** den Ordner mit den Klimadaten und Werkzeugen wählen.
 2. CDO, ncdump und Panoply zuordnen. Für Panoply wird zusätzlich eine passende Java-Laufzeit benötigt; der Adapter wird für Java 11 kompiliert.
 3. In der Übersicht eine Grunddatei und Variable wählen und **Create Plot** starten.
-4. Für das Logbuch eine vorhandene `logbuch.txt` in das gewählte Ordnerverzeichnis legen. Die App legt keine leere Datei automatisch an.
+4. Für das Logbuch eine vorhandene `logbuch.txt` in das gewählte Ordnerverzeichnis legen. Quicksetup legt bei Bedarf ein neues Logbuch an.
 
 Das aktive Logbuch wird alle zwei Sekunden auf externe Änderungen geprüft. Ungespeicherte Entwürfe werden bei Konflikten nicht still überschrieben. Beim ersten Speichern entsteht eine Sicherung neben der Originaldatei (`.bak`); gespeichert wird als UTF-8 mit BOM. Die Größe ist auf 2 MB begrenzt.
 
 Die Werkzeuge, Panoply, Java und Klimadaten werden nicht mit der App ausgeliefert. Einstellungen bleiben lokal auf dem jeweiligen Rechner.
+
+### Quicksetup
+
+Unter **Links → Quicksetup** den Arbeitsordner wählen und **Quicksetup starten** anklicken. Standard ist `Dokumente/KLOM`; der Ordner wird automatisch angelegt. Das Setup lädt Java 11 (Temurin), Panoply 5.10.2, die Windows-Kursversion CDO 1.6.4, NetCDF/ncdump 4.10.1, das CDO-Handbuch und eine öffentliche NetCDF-Beispieldatei von Unidata. Es erzeugt zusätzlich ein GRIB-Temperaturbeispiel aus diesen Daten und prüft Java, CDO sowie ncdump.
+
+Die Programme werden lokal entpackt; systemweite Installation und Administratorrechte sind nicht erforderlich. `Programme`, `Daten` und `Dokumentation` trennen die Inhalte. Die App nutzt die lokale Java-Laufzeit automatisch. Pfade werden nach Abschluss in die Einstellungen übernommen. Vorhandene Dateien bleiben erhalten.
+
+Softwarepakete werden anhand festgelegter SHA-256-Prüfsummen geprüft. Downloads haben bis zu zwei Stunden Zeit und werden bei Fehlern bis zu dreimal versucht. Unvollständige Downloads bleiben unter `.quicksetup/downloads` und werden beim nächsten Start per HTTP Range fortgesetzt, sofern der Server das unterstützt. Ein Abbruch ist möglich; beim Tabwechsel läuft das Setup weiter. Fehler einzelner Komponenten werden als Hinweise angezeigt und können durch erneuten Start behoben werden.
+
+Die PDF nennt keine öffentliche URL für `EH5_OM_20C3M_1_YM_TEMP2_Test.txt`; der ECHAM5-Datenbezug verlangt ein eigenes WDCC-Konto. Zugangsdaten aus Unterrichtsmaterialien werden nicht verwendet oder gespeichert. Optional kopiert das Setup vorhandene GRIB-/NetCDF-Dateien und die Excel-Testdatei aus dem bisher eingestellten Ordner. Das öffentliche NetCDF-Beispiel ersetzt die ursprünglichen Kursdateien nicht. Excel selbst wird nicht installiert.
 
 ## Entwicklung
 

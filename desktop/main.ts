@@ -1,4 +1,4 @@
-import { app, BrowserWindow, dialog, ipcMain, shell } from "electron";
+import { app, BrowserWindow, dialog, ipcMain, shell, net } from "electron";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { writeFile } from "node:fs/promises";
@@ -6,6 +6,7 @@ import { scanDirectory } from "../src/local-files-plugin";
 import { runPanoply } from "./panoply";
 import { checkTool, convertToNetCDF } from "./utility";
 import { readLogbook, saveLogbook } from "./logbook";
+import { QuickSetup } from "./quick-setup";
 
 const smokeOutput = process.env["CLIMA_SMOKE_OUTPUT"];
 if (smokeOutput) app.disableHardwareAcceleration();
@@ -32,6 +33,21 @@ else {
           throw new Error("Unzulässiger Aufruf.");
       };
       const helper = path.join(__dirname, "java");
+      const setup = new QuickSetup((state) => {
+        if (!mainWindow?.isDestroyed()) mainWindow?.webContents.send("clima:setup-progress", state);
+      }, net.fetch as typeof fetch);
+      app.on("before-quit", () => setup.cancel());
+      ipcMain.handle("clima:setup-status", (event) => {
+        checkSender(event);
+        return { ...setup.state, defaultDirectory: path.join(app.getPath("documents"), "KLOM") };
+      });
+      ipcMain.handle("clima:setup-folder", async (event) => {
+        checkSender(event);
+        const selected = await dialog.showOpenDialog(mainWindow!, { title: "Überordner wählen – darin wird KLOM angelegt", properties: ["openDirectory", "createDirectory"] });
+        return selected.canceled ? null : path.join(selected.filePaths[0]!, "KLOM");
+      });
+      ipcMain.handle("clima:setup-start", (event, request) => { checkSender(event); return setup.start(request); });
+      ipcMain.handle("clima:setup-cancel", (event) => { checkSender(event); setup.cancel(); });
       ipcMain.handle("clima:read-logbook", (event, directory) => {
         checkSender(event);
         return readLogbook(directory);
@@ -75,7 +91,7 @@ else {
         minHeight: 600,
         title: "KLÖM Helferapp",
         autoHideMenuBar: true,
-        show: !smokeOutput,
+        show: !smokeOutput && !process.env["CLIMA_TEST_HIDDEN"],
         backgroundColor: "#f8faf9",
         webPreferences: {
           preload: path.join(__dirname, "preload.cjs"),

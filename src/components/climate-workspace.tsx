@@ -77,7 +77,7 @@ export function ClimateWorkspace({ view = 'overview' }: { view?: View }) {
         <div hidden={view !== 'scenarios'}><UtilityWorkspace /></div>
         <div hidden={view !== 'comparison'}><LogbookWorkspace active={view === 'comparison'} /></div>
         {view === 'data' && <DataLibrary />}
-        {view === 'reports' && <ResourceLinks />}
+        <div hidden={view !== 'reports'}><ResourceLinks /></div>
         <footer className="footer"><span>clima. · Klimawissen wird Handlung.</span><span>{view === 'overview' || view === 'data' || view === 'scenarios' || view === 'comparison' ? 'Lokale Klimadateien · Panoply' : view === 'reports' ? 'KLOM-Vorbereitung · Offizielle Quellen' : 'Illustrative Demodaten · Keine wissenschaftlichen Prognosen'}</span></footer>
       </main>
     </div>

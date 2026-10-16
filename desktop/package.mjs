@@ -20,9 +20,9 @@ await writeFile(
   path.join(staging, "package-lock.json"),
   JSON.stringify({
     name: "kloem-helferapp",
-    version: "0.1.0",
+    version: "0.2.0",
     lockfileVersion: 3,
-    packages: { "": { name: "kloem-helferapp", version: "0.1.0" } },
+    packages: { "": { name: "kloem-helferapp", version: "0.2.0" } },
   }),
 );
 const electronVersion = require("electron/package.json").version;

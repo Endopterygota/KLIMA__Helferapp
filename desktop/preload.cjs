@@ -4,6 +4,15 @@ const invoke = async (channel, ...args) => {
   catch (error) { throw new Error(error.message.replace(/^Error invoking remote method '[^']+': (?:Error: )?/, '')); }
 };
 contextBridge.exposeInMainWorld("climaDesktop", {
+  setupStatus: () => invoke("clima:setup-status"),
+  setupFolder: () => invoke("clima:setup-folder"),
+  startSetup: (request) => invoke("clima:setup-start", request),
+  cancelSetup: () => invoke("clima:setup-cancel"),
+  onSetupProgress: (callback) => {
+    const listener = (_event, state) => callback(state);
+    ipcRenderer.on("clima:setup-progress", listener);
+    return () => ipcRenderer.removeListener("clima:setup-progress", listener);
+  },
   readLogbook: (directory) => invoke("clima:read-logbook", directory),
   saveLogbook: (directory, text, expected) =>
     ipcRenderer.invoke("clima:save-logbook", directory, text, expected),

@@ -258,3 +258,14 @@
 @media(max-width:850px) { .sidebar { width:175px; } .main-shell { margin-left:175px; width:calc(100% - 175px); } .brand { padding-left:20px; } .metric-grid { grid-template-columns:repeat(2,1fr); } .content-grid { grid-template-columns:1fr; } .model-panel { grid-column:auto; grid-row:auto; } .region-panel { grid-row:2; } .page-heading { align-items:flex-start; flex-wrap:wrap; } .comparison-grid { grid-template-columns:1fr; } }
 @media(max-width:600px) { .sidebar { display:none; width:228px; box-shadow:var(--shadow-soft); } .sidebar.mobile-open { display:flex; } .main-shell { width:100%; margin-left:0; } .topbar { height:62px; padding:0 18px; } .main-content { padding:25px 17px; } .mobile-menu { display:inline-flex; } .topbar-tools { gap:7px; } .topbar-tools .workspace-name { display:none; } .breadcrumb { gap:6px; } .page-heading { margin-bottom:23px; gap:17px; } .page-heading h1 { font-size:25px; } .page-heading p { line-height:1.7; } .metric-grid { gap:10px; } .metric { padding:15px 13px; } .metric-label { font-size:10px; } .metric-foot { font-size:9px; } .heading-actions { width:100%; } .heading-actions > * { flex:1; } .chart-legend { gap:9px; font-size:8px; } .panel-header { padding:19px 17px 0; } .footer { flex-wrap:wrap; line-height:1.6; } }
 @media(prefers-reduced-motion:reduce) { *, *::before, *::after { animation:none !important; transition:none !important; } }
+.quick-setup { margin: 20px 0 28px; padding: 22px; border: 1px solid var(--border); border-radius: 12px; background: color-mix(in srgb, var(--primary) 5%, transparent); }
+.quick-setup h3 { display: flex; align-items: center; gap: 9px; font-size: 19px; margin-bottom: 8px; }
+.quick-setup p { margin: 10px 0; }
+.quick-setup .settings-folder-input { margin: 8px 0 14px; }
+.setup-checkbox { display: flex; align-items: flex-start; gap: 10px; margin: 16px 0; }
+.setup-checkbox input { margin-top: 4px; }
+.setup-checks { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 14px 0; }
+.setup-checks li { display: flex; align-items: center; gap: 6px; color: var(--primary); }
+.setup-warnings { margin: 14px 0; padding: 14px; border: 1px solid var(--border); border-radius: 8px; }
+.setup-warnings ul { list-style: disc; padding-left: 20px; }
+.quick-setup progress { width: 100%; accent-color: var(--primary); }

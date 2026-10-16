@@ -21,7 +21,14 @@ export async function containedFile(root: string, relative: string, extensions: 
     );
   return resolved;
 }
-async function javaExecutable() {
+async function javaExecutable(root: string) {
+  const localJava = path.join(root, "Programme", "Java-11");
+  try {
+    for (const folder of await readdir(localJava)) {
+      const candidate = path.join(localJava, folder, "bin", "java.exe");
+      try { await access(candidate); return candidate; } catch { /* optional local runtime */ }
+    }
+  } catch { /* no Quicksetup runtime */ }
   const candidates = [
     process.env["JAVA_HOME"] ? path.join(process.env["JAVA_HOME"], "bin", "java.exe") : "",
   ];
@@ -103,7 +110,7 @@ export async function runPanoply(
       ...(variable === undefined ? [output] : [variable, output]),
     ];
     try {
-      await exec(await javaExecutable(), args, {
+      await exec(await javaExecutable(root), args, {
         windowsHide: true,
         cwd: work,
         timeout: 120000,

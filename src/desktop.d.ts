@@ -1,4 +1,5 @@
 import type { Catalog } from "./lib/path-settings";
+import type { SetupState, SetupRequest } from "./lib/quick-setup-types";
 import type { LogSnapshot, LogSaveResult } from "./lib/logbook-types";
 import type { PlotSource, PlotVariable, PlotResult } from "./lib/plot-types";
 import type {
@@ -10,6 +11,11 @@ import type {
 declare global {
   interface Window {
     climaDesktop?: {
+      setupStatus?: () => Promise<SetupState & { defaultDirectory: string }>;
+      setupFolder?: () => Promise<string | null>;
+      startSetup?: (request: SetupRequest) => Promise<SetupState>;
+      cancelSetup?: () => Promise<void>;
+      onSetupProgress?: (callback: (state: SetupState) => void) => () => void;
       readLogbook?: (directory: string) => Promise<LogSnapshot>;
       saveLogbook?: (directory: string, text: string, expected: string) => Promise<LogSaveResult>;
       checkTool?: (request: ToolRequest) => Promise<ToolCheck>;

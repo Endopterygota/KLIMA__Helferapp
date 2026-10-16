@@ -21,6 +21,11 @@ export function PlotWorkspace() {
   const [error, setError] = useState("");
   const [result, setResult] = useState<PlotResult | null>(null);
   const [generation, setGeneration] = useState(0);
+  useEffect(() => {
+    const reload = () => setGeneration((value) => value + 1);
+    window.addEventListener("clima:settings-changed", reload);
+    return () => window.removeEventListener("clima:settings-changed", reload);
+  }, []);
   const desktop = typeof window !== "undefined" && !!window.climaDesktop?.inspectDataset;
   useEffect(() => {
     let current = true;

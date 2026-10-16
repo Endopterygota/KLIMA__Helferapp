@@ -20,6 +20,8 @@ export async function scanDirectory(directory: string) {
       // Do not follow links or junctions outside the chosen directory.
       if (entry.isSymbolicLink()) continue;
       if (entry.isDirectory()) {
+        // Setup archives and temporary extractions are not library datasets.
+        if (entry.name.toLowerCase() === ".quicksetup") continue;
         try {
           await walk(absolute);
         } catch (error) {
