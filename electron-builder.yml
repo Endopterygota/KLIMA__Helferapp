@@ -1,0 +1,15 @@
+appId: de.kloem.helferapp
+productName: KLÖM Helferapp
+directories:
+  app: desktop-dist
+  output: release
+files:
+  - "**/*"
+asar: true
+npmRebuild: false
+win:
+  target:
+    - target: portable
+      arch: [x64]
+  signAndEditExecutable: false
+artifactName: KLOEM-Helferapp.exe

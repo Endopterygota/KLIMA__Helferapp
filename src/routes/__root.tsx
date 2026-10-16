@@ -1,3 +1,4 @@
+import { WorkspaceRouteShell } from "@/components/climate-workspace";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -120,6 +121,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+      <WorkspaceRouteShell />
       <Outlet />
     </QueryClientProvider>
   );

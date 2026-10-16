@@ -8,6 +8,8 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+desktop-dist/
+release/
 dist
 dist-ssr
 .output
@@ -30,3 +32,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local build and test artifacts
+artifacts/
+release-isolated/
+.env
+.env.*
+!.env.example

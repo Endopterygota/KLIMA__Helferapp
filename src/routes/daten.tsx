@@ -1,5 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { ClimateWorkspace } from '@/components/climate-workspace';
 export const Route = createFileRoute('/daten')({
   head: () => ({ meta: [
     { title: 'clima. – Datenbibliothek' },
@@ -9,5 +8,5 @@ export const Route = createFileRoute('/daten')({
     { property: 'og:type', content: 'website' },
     { name: 'twitter:card', content: 'summary_large_image' },
   ] }),
-  component: () => <ClimateWorkspace view="data" />,
+  component: () => null,
 });

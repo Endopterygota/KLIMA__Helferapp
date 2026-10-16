@@ -1,24 +1,65 @@
-# Climate Sight Maker
+# KLÖM Helferapp
 
-Bitte erstelle mir eine App Design für eine App die verschiedene Funktionen für Klimamodellierungen vereinfacht. Sie soll modern aber einfach sein
+Eine lokale Desktop-App für die Arbeit mit Klimadaten in GRIB- und NetCDF-Dateien. Die Oberfläche basiert auf React und TypeScript; Electron verbindet sie mit lokalen Dateien, CDO, ncdump und Panoply.
 
-This project was built with [Lovable](https://lovable.dev).
+## Funktionen
 
-## Build with Lovable
+- **Einstellungen:** Einen Überordner wählen und Programme sowie Datendateien über gefilterte Dropdowns zuordnen. Einzelne passende Optionen werden automatisch ausgewählt.
+- **Übersicht:** Eine GRIB-/NetCDF-Datei und eine darstellbare Variable wählen und einen geografischen 2D-Plot direkt in der App anzeigen. Die Vorschau verwendet tatsächliche Dateidaten; standardmäßig den ersten Zeit- und Höhenindex, ohne zeitliche Mittelung.
+- **Datenbibliothek:** GRIB- und NetCDF-Dateien übersichtlich nach Format durchsuchen.
+- **Utility:** CDO und ncdump prüfen sowie GRIB-Dateien mit CDO in NetCDF konvertieren. Vorhandene Zieldateien werden nicht überschrieben.
+- **Logbuch:** `logbuch.txt` automatisch im gewählten Überordner oder seinen Unterordnern erkennen, bearbeiten und speichern. Groß-/Kleinschreibung spielt bei der Suche keine Rolle. Eine Datei direkt im Überordner hat Vorrang; mehrere Treffer in Unterordnern erfordern die Auswahl eines genaueren Überordners.
+- **Links:** Eine Sammlung offizieller Download- und Dokumentationsseiten aus den Vorbereitungsmaterialien.
+- **Dark Mode:** Persistente Darstellung und Einstellungen. Ein Tabwechsel erhält die laufende Übersicht und ihre Vorschau.
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/094e7312-e9d7-4388-8a41-8ed60c6010fd).
+## Desktop-App verwenden
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+1. Die Windows-App starten und unter **Einstellungen** den Ordner mit den Klimadaten und Werkzeugen wählen.
+2. CDO, ncdump und Panoply zuordnen. Für Panoply wird zusätzlich eine passende Java-Laufzeit benötigt; der Adapter wird für Java 11 kompiliert.
+3. In der Übersicht eine Grunddatei und Variable wählen und **Create Plot** starten.
+4. Für das Logbuch eine vorhandene `logbuch.txt` in das gewählte Ordnerverzeichnis legen. Die App legt keine leere Datei automatisch an.
 
-## Development
+Das aktive Logbuch wird alle zwei Sekunden auf externe Änderungen geprüft. Ungespeicherte Entwürfe werden bei Konflikten nicht still überschrieben. Beim ersten Speichern entsteht eine Sicherung neben der Originaldatei (`.bak`); gespeichert wird als UTF-8 mit BOM. Die Größe ist auf 2 MB begrenzt.
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Die Werkzeuge, Panoply, Java und Klimadaten werden nicht mit der App ausgeliefert. Einstellungen bleiben lokal auf dem jeweiligen Rechner.
+
+## Entwicklung
+
+Voraussetzungen: eine aktuelle Node.js-Version, pnpm und für den Desktop-Build ein JDK mit `javac` sowie die Panoply-JAR-Dateien.
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+pnpm install
+pnpm dev
 ```
+
+Der Browser zeigt die Oberfläche; Desktop-Funktionen wie Plot-Erzeugung, Werkzeugaufrufe und Logbuchbearbeitung benötigen Electron.
+
+```sh
+pnpm test
+pnpm exec tsc --noEmit
+pnpm build
+```
+
+## Windows-EXE bauen
+
+In PowerShell den Pfad zur eigenen Panoply-Installation setzen:
+
+```powershell
+$env:KLOEM_PANOPLY_JARS = 'C:\Programme\Panoply\jars'
+pnpm desktop:build
+```
+
+Das Ergebnis liegt unter `release/KLOEM-Helferapp.exe` und ist eine portable Windows-x64-Anwendung. Der Build benötigt Zugriff auf die Paket- und Electron-Downloads. Generierte Builds und lokale Testartefakte gehören nicht ins Git-Repository.
+
+## Linux
+
+Der aktuelle Paketierungsweg erstellt ausschließlich eine Windows-EXE. Diese ist kein natives Linux-Paket. Für Linux kann dieselbe Codebasis weiterverwendet werden; erforderlich sind Linux-Ziele im Electron-Build (z. B. AppImage oder deb), die Erkennung von Programmen ohne `.exe`, eine angepasste Java-/Panoply-Suche und Tests der Datei- und Prozessfunktionen unter Linux. Dort werden native Versionen von CDO, ncdump, Java und Panoply benötigt. Ein Linux-Build ist bislang nicht umgesetzt oder geprüft.
+
+## Projektstruktur
+
+- `src/components/`: Oberfläche und Arbeitsbereiche
+- `src/lib/`: Dateiauswahl, Typen und Linksammlung
+- `desktop/`: Electron, lokale Werkzeuge und Logbuchzugriff
+- `desktop/java/ClimatePlot.java`: Panoply-Adapter
+
+Die ursprüngliche Oberfläche stammt aus [climate-sight-maker](https://github.com/Endopterygota/climate-sight-maker). Die lokalen Desktop-Funktionen werden in diesem Repository weiterentwickelt. Eine eigene Lizenz ist derzeit nicht festgelegt; Rechte an eingebundenen Abhängigkeiten verbleiben bei deren jeweiligen Urhebern.
