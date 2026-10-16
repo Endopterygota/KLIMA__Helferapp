@@ -1,4 +1,4 @@
 # Umsetzung
-- [ ] Einfache Klima-Arbeitsoberfläche mit Szenarien, Parametern und Ergebnisdiagrammen gestalten.
-- [ ] Navigation und interaktive Beispielmodellierung umsetzen.
-- [ ] Darstellung und Hauptablauf prüfen.
+- [x] Einfache Klima-Arbeitsoberfläche mit Szenarien, Parametern und Ergebnisdiagrammen gestalten.
+- [x] Navigation und interaktive Beispielmodellierung umsetzen.
+- [x] Darstellung und Hauptablauf prüfen.
