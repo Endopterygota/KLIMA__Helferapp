@@ -10,33 +10,73 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BerichteRouteImport } from './routes/berichte'
+import { Route as DatenRouteImport } from './routes/daten'
+import { Route as SzenarienRouteImport } from './routes/szenarien'
+import { Route as VergleichRouteImport } from './routes/vergleich'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BerichteRoute = BerichteRouteImport.update({
+  id: '/berichte',
+  path: '/berichte',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DatenRoute = DatenRouteImport.update({
+  id: '/daten',
+  path: '/daten',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SzenarienRoute = SzenarienRouteImport.update({
+  id: '/szenarien',
+  path: '/szenarien',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VergleichRoute = VergleichRouteImport.update({
+  id: '/vergleich',
+  path: '/vergleich',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/berichte': typeof BerichteRoute
+  '/daten': typeof DatenRoute
+  '/szenarien': typeof SzenarienRoute
+  '/vergleich': typeof VergleichRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/berichte': typeof BerichteRoute
+  '/daten': typeof DatenRoute
+  '/szenarien': typeof SzenarienRoute
+  '/vergleich': typeof VergleichRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/berichte': typeof BerichteRoute
+  '/daten': typeof DatenRoute
+  '/szenarien': typeof SzenarienRoute
+  '/vergleich': typeof VergleichRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/berichte' | '/daten' | '/szenarien' | '/vergleich'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/berichte' | '/daten' | '/szenarien' | '/vergleich'
+  id: '__root__' | '/' | '/berichte' | '/daten' | '/szenarien' | '/vergleich'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BerichteRoute: typeof BerichteRoute
+  DatenRoute: typeof DatenRoute
+  SzenarienRoute: typeof SzenarienRoute
+  VergleichRoute: typeof VergleichRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +88,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/berichte': {
+      id: '/berichte'
+      path: '/berichte'
+      fullPath: '/berichte'
+      preLoaderRoute: typeof BerichteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/daten': {
+      id: '/daten'
+      path: '/daten'
+      fullPath: '/daten'
+      preLoaderRoute: typeof DatenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/szenarien': {
+      id: '/szenarien'
+      path: '/szenarien'
+      fullPath: '/szenarien'
+      preLoaderRoute: typeof SzenarienRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vergleich': {
+      id: '/vergleich'
+      path: '/vergleich'
+      fullPath: '/vergleich'
+      preLoaderRoute: typeof VergleichRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BerichteRoute: BerichteRoute,
+  DatenRoute: DatenRoute,
+  SzenarienRoute: SzenarienRoute,
+  VergleichRoute: VergleichRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
