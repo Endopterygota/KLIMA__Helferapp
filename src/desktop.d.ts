@@ -1,4 +1,5 @@
 import type { Catalog } from "./lib/path-settings";
+import type { WorkspaceHealth } from "./lib/workspace-health-types";
 import type { SetupState, SetupRequest } from "./lib/quick-setup-types";
 import type { LogSnapshot, LogSaveResult } from "./lib/logbook-types";
 import type { PlotSource, PlotVariable, PlotResult } from "./lib/plot-types";
@@ -11,6 +12,7 @@ import type {
 declare global {
   interface Window {
     climaDesktop?: {
+      workspaceHealth?: (settings: unknown) => Promise<WorkspaceHealth>;
       setupStatus?: () => Promise<SetupState & { defaultDirectory: string }>;
       setupFolder?: () => Promise<string | null>;
       startSetup?: (request: SetupRequest) => Promise<SetupState>;

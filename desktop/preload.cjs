@@ -4,6 +4,7 @@ const invoke = async (channel, ...args) => {
   catch (error) { throw new Error(error.message.replace(/^Error invoking remote method '[^']+': (?:Error: )?/, '')); }
 };
 contextBridge.exposeInMainWorld("climaDesktop", {
+  workspaceHealth: (settings) => invoke("clima:workspace-health", settings),
   setupStatus: () => invoke("clima:setup-status"),
   setupFolder: () => invoke("clima:setup-folder"),
   startSetup: (request) => invoke("clima:setup-start", request),

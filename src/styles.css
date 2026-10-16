@@ -269,3 +269,10 @@
 .setup-warnings { margin: 14px 0; padding: 14px; border: 1px solid var(--border); border-radius: 8px; }
 .setup-warnings ul { list-style: disc; padding-left: 20px; }
 .quick-setup progress { width: 100%; accent-color: var(--primary); }
+.workspace-health { position: relative; font-size: 11px; color: var(--muted-foreground); }
+.workspace-health-trigger { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 7px 0; }
+.status-dot.health-error { background: var(--high); }
+.status-dot.health-ok { background: var(--primary); }
+.workspace-health-details { position: absolute; top: calc(100% + 12px); right: 0; z-index: 40; width: min(360px, 80vw); padding: 18px; background: var(--card); color: var(--foreground); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 10px 30px #0003; line-height: 1.6; }
+.workspace-health-details ul { list-style: disc; padding-left: 18px; margin: 10px 0; }
+.workspace-health-details a, .workspace-health-details button { display: inline-block; color: var(--primary); text-decoration: underline; cursor: pointer; margin: 10px 15px 0 0; }

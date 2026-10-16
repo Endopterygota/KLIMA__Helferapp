@@ -71,6 +71,7 @@ export function PathSettings() {
   function save() {
     try {
       localStorage.setItem(storageKey, JSON.stringify({ directory: scannedDirectory, selection }));
+      window.dispatchEvent(new Event("clima:settings-changed"));
       setMessage("Einstellungen in diesem Browser gespeichert.");
       setError("");
     } catch {

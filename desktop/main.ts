@@ -7,6 +7,7 @@ import { runPanoply } from "./panoply";
 import { checkTool, convertToNetCDF } from "./utility";
 import { readLogbook, saveLogbook } from "./logbook";
 import { QuickSetup } from "./quick-setup";
+import { workspaceHealth } from "./workspace-health";
 
 const smokeOutput = process.env["CLIMA_SMOKE_OUTPUT"];
 if (smokeOutput) app.disableHardwareAcceleration();
@@ -33,6 +34,7 @@ else {
           throw new Error("Unzulässiger Aufruf.");
       };
       const helper = path.join(__dirname, "java");
+      ipcMain.handle("clima:workspace-health", (event, settings) => { checkSender(event); return workspaceHealth(settings); });
       const setup = new QuickSetup((state) => {
         if (!mainWindow?.isDestroyed()) mainWindow?.webContents.send("clima:setup-progress", state);
       }, net.fetch as typeof fetch);

@@ -11,6 +11,7 @@ Eine lokale Desktop-App für die Arbeit mit Klimadaten in GRIB- und NetCDF-Datei
 - **Logbuch:** `logbuch.txt` automatisch im gewählten Überordner oder seinen Unterordnern erkennen, bearbeiten und speichern. Groß-/Kleinschreibung spielt bei der Suche keine Rolle. Eine Datei direkt im Überordner hat Vorrang; mehrere Treffer in Unterordnern erfordern die Auswahl eines genaueren Überordners.
 - **Links und Quicksetup:** Offizielle Download- und Dokumentationsseiten sowie automatische Einrichtung eines lokalen Arbeitsordners samt Werkzeugen und Testdaten.
 - **Dark Mode:** Persistente Darstellung und Einstellungen. Ein Tabwechsel erhält die laufende Übersicht und ihre Vorschau.
+- **Statusanzeige:** Der Punkt bei „Lokaler Arbeitsbereich“ wird nur grün, wenn ein gespeicherter, lesbarer Überordner, die ausgewählten Programmpfade (einschließlich Panoply.jar), eine ausführbare Java-Laufzeit ab Version 11 und mindestens eine GRIB-/NetCDF-Datei vorhanden sind. Fehlende Bestandteile werden rot signalisiert und lassen sich per Klick anzeigen. Die Prüfung läuft nach Einstellungsänderungen, beim Fensterfokus und alle zehn Sekunden. Die Ausführung von CDO und ncdump kann zusätzlich unter Utility getestet werden.
 
 ## Desktop-App verwenden
 
@@ -62,6 +63,10 @@ pnpm desktop:build
 Das Ergebnis liegt unter `release/KLOEM-Helferapp.exe` und ist eine portable Windows-x64-Anwendung. Der Build benötigt Zugriff auf die Paket- und Electron-Downloads. Generierte Builds und lokale Testartefakte gehören nicht ins Git-Repository.
 
 ## Linux
+
+Panoply 5.10.2 ist laut [NASA-Downloadseite](https://www.giss.nasa.gov/tools/panoply/download/) auch für Windows verfügbar und benötigt Java 11 oder neuer. Linux ist dafür nicht erforderlich.
+
+Für Linux-Werkzeuge unter Windows bietet Microsoft [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) an. Windows bleibt das gestartete Betriebssystem; eine Linux-Distribution wie Ubuntu läuft zusätzlich darin. Ein Einrichtungsassistent könnte die WSL-/Ubuntu-Installation und anschließend Linux-Pakete vorbereiten. Administratorfreigabe, ein möglicher Neustart und die erste Benutzerkonfiguration sind dabei separate Schritte. Der bestehende Quicksetup-Button installiert Windows-Werkzeuge und richtet kein WSL ein. Die App enthält bislang keine Anbindung an Linux-CDO über `wsl.exe`.
 
 Der aktuelle Paketierungsweg erstellt ausschließlich eine Windows-EXE. Diese ist kein natives Linux-Paket. Für Linux kann dieselbe Codebasis weiterverwendet werden; erforderlich sind Linux-Ziele im Electron-Build (z. B. AppImage oder deb), die Erkennung von Programmen ohne `.exe`, eine angepasste Java-/Panoply-Suche und Tests der Datei- und Prozessfunktionen unter Linux. Dort werden native Versionen von CDO, ncdump, Java und Panoply benötigt. Ein Linux-Build ist bislang nicht umgesetzt oder geprüft.
 

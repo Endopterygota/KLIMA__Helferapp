@@ -21,7 +21,7 @@ export async function containedFile(root: string, relative: string, extensions: 
     );
   return resolved;
 }
-async function javaExecutable(root: string) {
+export async function javaExecutable(root: string) {
   const localJava = path.join(root, "Programme", "Java-11");
   try {
     for (const folder of await readdir(localJava)) {
