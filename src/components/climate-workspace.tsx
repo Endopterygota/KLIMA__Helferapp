@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type FormEvent, type ReactNode } from 'react';
 import { Link } from '@tanstack/react-router';
 import { Area, CartesianGrid, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Activity, ArrowDownToLine, ArrowRight, Bell, BookOpen, Check, ChevronDown, ChevronRight, CircleHelp, Clock3, CloudRain, Database, FileChartColumn, FlaskConical, Globe2, Layers3, Leaf, MapPin, Menu, MoreHorizontal, Plus, Settings2, SlidersHorizontal, Sparkles, Thermometer, TrendingUp, Waves, X } from 'lucide-react';
@@ -44,7 +44,7 @@ export function ClimateWorkspace({ view = 'overview' }: { view?: View }) {
     setRunning(true); setResult(false);
     window.setTimeout(() => { setRunning(false); setResult(true); }, 1200);
   }
-  function addScenario(event: React.FormEvent<HTMLFormElement>) {
+  function addScenario(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!name.trim()) return;
     setScenarios(previous => [{ name: name.trim(), region, pathway, year, status: 'Entwurf', date: 'Gerade eben' }, ...previous]);
@@ -55,7 +55,7 @@ export function ClimateWorkspace({ view = 'overview' }: { view?: View }) {
 
   return <div className="app-shell">
     <aside className={`sidebar ${mobile ? 'mobile-open' : ''}`}>
-      <Link to="/" className="brand" style={{ textDecoration: 'none', color: 'inherit' }}><Leaf className="brand-icon" strokeWidth={2.2} /><span>clima<span className="brand-dot">.</span></span></Link>
+      <Link to="/" className="brand"><Leaf className="brand-icon" strokeWidth={2.2} /><span>clima<span className="brand-dot">.</span></span></Link>
       <div className="workspace-label">ARBEITSBEREICH</div>
       <nav className="navigation">{navigation.map(item => <Link key={item.to} to={item.to} onClick={() => setMobile(false)} className={`nav-item ${item.view === view ? 'active' : ''}`}><item.icon />{item.label}{item.view === 'scenarios' && <span className="nav-count">{scenarios.length}</span>}</Link>)}</nav>
       <div className="sidebar-bottom"><div className="project-box"><div className="project-title"><span className="status-dot" />Klima verstehen.</div><p>Zukunft gestalten.</p><div className="mt-3 flex items-center gap-1 text-[10px] text-primary"><Globe2 size={12} /> Gemeinsam für morgen</div></div><Button variant="ghost" className="w-full justify-start text-muted-foreground" onClick={() => setHelpOpen(true)}><CircleHelp />Hilfe & Ressourcen<ArrowRight className="ml-auto" /></Button><div className="mt-5 flex items-center gap-3 border-t pt-5 px-2"><div className="avatar">LR</div><div><div className="text-[11px] font-semibold">Mein Arbeitsbereich</div><div className="mt-1 text-[9px] text-muted-foreground">Persönliches Projekt</div></div></div></div>
@@ -78,7 +78,7 @@ export function ClimateWorkspace({ view = 'overview' }: { view?: View }) {
           </div><div className="section-heading"><div><h2>Letzte Szenarien</h2><p>Ihre zuletzt bearbeiteten Klimamodelle.</p></div><Button variant="ghost" className="text-primary text-[10px]" asChild><Link to="/szenarien">Alle Szenarien<ArrowRight /></Link></Button></div>{scenarioTable}
         </>}
         {view === 'scenarios' && scenarioTable}
-        {view === 'comparison' && <div className="comparison-grid">{[['SSP1-2.6', 'Klimaschutz', 'Konsequente Emissionsreduktion'], ['SSP2-4.5', 'Mittelweg', 'Fortsetzung bisheriger Entwicklung'], ['SSP5-8.5', 'Hohe Emissionen', 'Anhaltend fossile Energieversorgung']].map(([id, title, desc]) => <section className="comparison-card" key={id}><span className="pathway-badge">{id}</span><h2 className="mt-5">{title}</h2><p className="text-[11px] text-muted-foreground">{desc}</p><div className="comparison-value">+{demoProjection(id, 2100).toFixed(1).replace('.', ',')} °C</div><p className="text-[11px] text-muted-foreground">Illustrative globale Erwärmung bis 2100</p><div className="mt-6 border-t pt-4 flex items-center gap-2 text-[10px] text-primary"><Thermometer size={14} />Gegenüber vorindustriellem Niveau</div></section>)}</div>}
+        {view === 'comparison' && <div className="comparison-grid">{[['SSP1-2.6', 'Klimaschutz', 'Konsequente Emissionsreduktion'], ['SSP2-4.5', 'Mittelweg', 'Fortsetzung bisheriger Entwicklung'], ['SSP5-8.5', 'Hohe Emissionen', 'Anhaltend fossile Energieversorgung']].map(([id, title, desc]) => <section className="comparison-card" key={id}><span className="pathway-badge">{id}</span><h2 className="mt-5">{title}</h2><p className="text-[11px] text-muted-foreground">{desc}</p><div className="comparison-value">+{demoProjection(id ?? 'SSP2-4.5', 2100).toFixed(1).replace('.', ',')} °C</div><p className="text-[11px] text-muted-foreground">Illustrative globale Erwärmung bis 2100</p><div className="mt-6 border-t pt-4 flex items-center gap-2 text-[10px] text-primary"><Thermometer size={14} />Gegenüber vorindustriellem Niveau</div></section>)}</div>}
         {view === 'data' && <div className="data-list">{[['CMIP6', 'Klimamodell-Ensemble · Temperatur und Niederschlag', 'Szenario-Referenz'], ['ERA5', 'Reanalyse · Historische Klimadaten 1940–2025', 'Referenzdatensatz'], ['Copernicus DEM', 'Digitales Höhenmodell · Europäische Regionen', 'Geländereferenz']].map(([title, desc, tag]) => <div className="data-row" key={title}><Database className="text-primary" size={24} /><div><strong>{title}</strong><p>{desc}</p></div><span className="small-badge">{tag}</span></div>)}</div>}
         {view === 'reports' && <section className="panel p-6"><div className="flex items-start justify-between gap-4"><div><FileChartColumn size={30} className="text-primary mb-4" /><h2 className="text-lg font-semibold">Szenarioübersicht 2026</h2><p className="text-muted-foreground text-xs mt-2">{scenarios.length} Beispielszenarien · Emissionspfade · Zeithorizonte</p></div><Button variant="outline" onClick={exportData}><ArrowDownToLine />CSV herunterladen</Button></div><div className="mt-6">{scenarioTable}</div></section>}
         <footer className="footer"><span>clima. · Klimawissen wird Handlung.</span><span>Illustrative Demodaten · Keine wissenschaftlichen Prognosen</span></footer>
@@ -90,6 +90,6 @@ export function ClimateWorkspace({ view = 'overview' }: { view?: View }) {
     <Dialog open={notifications} onOpenChange={setNotifications}><DialogContent><DialogHeader><DialogTitle>Benachrichtigungen</DialogTitle><DialogDescription>Aktuelles aus Ihrem Arbeitsbereich.</DialogDescription></DialogHeader><div className="flex gap-3 py-4"><Check className="text-primary" size={20} /><div><p className="font-semibold text-sm">Ihr Demo-Arbeitsbereich ist bereit.</p><p className="text-xs text-muted-foreground mt-2">Drei Beispielszenarien stehen zur Verfügung.</p></div></div></DialogContent></Dialog>
   </div>;
 }
-function Metric({ label, icon: Icon, value, unit, foot }: { label: string; icon: typeof Thermometer; value: string; unit?: string; foot: React.ReactNode }) {
+function Metric({ label, icon: Icon, value, unit, foot }: { label: string; icon: typeof Thermometer; value: string; unit?: string; foot: ReactNode }) {
   return <article className="metric"><div className="metric-label">{label}<Icon /></div><div className="metric-value">{value}{unit && <span> {unit}</span>}</div><div className="metric-foot">{foot}</div></article>;
 }
